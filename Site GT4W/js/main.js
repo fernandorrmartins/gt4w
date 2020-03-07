@@ -155,13 +155,46 @@ class Pessoa {
         }
     }
 
+    static enviarCadastro = async (pessoa) => {
+        try{
+            let resposta = await fetch("http://localhost:83/pessoa/create", {
+                headers: {
+                    'Accept': 'application/json',
+                    'Content-Type': 'application/json'
+                },
+                method: "POST",
+                body: JSON.stringify(pessoa)
+            }).catch((erro) => {
+                console.warn(erro);
+            });;
+            resposta = await resposta.json().catch((erro) => {
+                console.warn(erro);
+            });
+            // Tratar erro de cpf duplicado
+        } catch (erro) {
+            console.warn(erro);
+        }
+    }
+
     static cadastrar = (evt) => {
         try {
             let dados_validos = this.verificarSePodeCadastrar();
-            if(!dados_validos) {
+            if (!dados_validos) {
                 Pessoa.gerarAlertaDeFormatoIncorreto();
             } else {
-                
+                let nome = Pessoa.nome.value;
+                let cpf = Pessoa.cpf.value;
+                let data_nascimento = Pessoa.data_nascimento.value;
+                let peso = Pessoa.peso.value;
+                let uf = Pessoa.uf.value;
+                let pessoa = {
+                    nome,
+                    cpf,
+                    data_nascimento,
+                    peso,
+                    uf
+                }
+                Pessoa.enviarCadastro(pessoa);
             }
         } catch (erro) {
             console.warn(erro);
