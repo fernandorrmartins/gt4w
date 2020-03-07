@@ -1,0 +1,44 @@
+*, html, body {
+    margin: 0;
+    padding: 0;
+}
+
+html, body {
+    width: 100%;
+    height: 100%;
+}
+
+.formulario {
+    border: 1px solid #ccc;
+    border-radius: 10px;
+    width: 100%;
+    max-width: 500px;
+    min-height: 200px;
+    margin: 5% auto;
+}
+
+.formulario #form-head {
+    width: 100%;
+    border-top-left-radius: 10px;
+    border-top-right-radius: 10px;
+    background-color: #ccc;
+    text-align: left;
+    padding: 2%;
+}
+
+.formulario input, .formulario select {
+    width: 100%;
+}
+
+.formulario h6 {
+    font-weight: bold;
+}
+
+.container, .row {
+    padding: 1%;
+}
+
+.obrigatorio {
+    color: rgb(230, 16, 16);
+    margin: auto 1%;
+}

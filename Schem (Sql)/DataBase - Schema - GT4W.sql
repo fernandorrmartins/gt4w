@@ -1,0 +1,13 @@
+/* DataBase - Schema Sql - GT4W: */
+CREATE DATABASE gt4w;
+ALTER DATABASE gt4W CHARACTER SET utf8 COLLATE utf8_bin;
+USE gt4w;
+
+CREATE TABLE Pessoa (
+    Id BIGINT PRIMARY KEY AUTO_INCREMENT,
+    Nome VARCHAR(80) NOT NULL,
+    CPF VARCHAR(14) UNIQUE,
+    Data_Nascimento DATE,
+    Peso INT,
+    UF VARCHAR(2)
+);
