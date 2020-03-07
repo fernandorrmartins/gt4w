@@ -1,10 +1,10 @@
 class Estado {
     constructor() {
         let api = `https://servicodados.ibge.gov.br/api/v1/localidades/estados`;
-        this.defineEstados(api);
+        this.definirEstados(api);
     }
 
-    defineEstados = async (api) => {
+    definirEstados = async (api) => {
         try {
             let resposta = await fetch(api);
             resposta = await resposta.json();
@@ -16,7 +16,7 @@ class Estado {
             for (let chave in resposta) {
                 opcoes[resposta[chave].sigla] = resposta[chave].nome;
             }
-            let select = document.querySelector('#estado');
+            let select = document.querySelector('#uf');
             select.innerHTML = "";
             for (let chave in opcoes) {
                 let option = document.createElement('option');
@@ -24,8 +24,6 @@ class Estado {
                 option.value = chave;
                 select.appendChild(option);
             }
-            let btn_cadastrar = document.querySelector('#btn_cadastrar');
-            btn_cadastrar.disabled = false;
         } catch (erro) {
             console.warn(erro);
         }
@@ -35,23 +33,31 @@ class Estado {
 new Estado();
 
 class Pessoa {
-    nome;
-    cpf;
-    data_nascimento;
-    peso;
-    estado;
-    uf_regex = /[A-Z]/g;
+    static nome;
+    static cpf;
+    static data_nascimento;
+    static peso;
+    static uf;
+    static btn_cadastrar;
+    static nome_regex = /[a-zA-Z]/g;
+    static cpf_regex = /[0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2}/g;
+    static data_nascimento_regex = /[0-9]{4}-[0-9]{2}-[0-9]{2}/g;
+    static uf_regex = /[A-Z]/g;
+
 
     constructor() {
-        this.nome = document.querySelector('#formulario #nome');
-        this.nome.onkeyup = this.mascaraNome;
-        this.cpf = document.querySelector('#formulario #cpf');
-        this.cpf.onkeyup = this.mascaraCpf;
-        this.data_nascimento = document.querySelector('#formulario #data_nascimento');
-        this.data_nascimento.onchange = this.validacaoData;
-        this.peso = document.querySelector('#formulario #peso');
-        this.peso.onkeyup = this.mascaraPeso;
-        this.estado = document.querySelector('#formulario #estado');
+        Pessoa.nome = document.querySelector('#formulario #nome');
+        Pessoa.nome.onkeyup = this.mascaraNome;
+        Pessoa.cpf = document.querySelector('#formulario #cpf');
+        Pessoa.cpf.onkeyup = this.mascaraCpf;
+        Pessoa.data_nascimento = document.querySelector('#formulario #data_nascimento');
+        Pessoa.data_nascimento.onchange = this.validacaoData;
+        Pessoa.peso = document.querySelector('#formulario #peso');
+        Pessoa.peso.onkeyup = Pessoa.liberarCadastro;
+        Pessoa.uf = document.querySelector('#formulario #uf');
+        Pessoa.uf.onchange = Pessoa.liberarCadastro;
+        Pessoa.btn_cadastrar = document.querySelector('#formulario #btn_cadastrar');
+        Pessoa.btn_cadastrar.onclick = Pessoa.cadastrar;
     }
 
     mascaraNome = (evt) => {
@@ -59,6 +65,7 @@ class Pessoa {
             let valor = evt.target.value;
             valor = valor.replace(/[-!¨´$#%^@\&*()\\_+|~=`{}\[\]:";'<>?,.\/0-9]/g, '');
             evt.target.value = valor;
+            Pessoa.liberarCadastro();
         } catch (erro) {
             console.warn(erro);
         }
@@ -78,6 +85,7 @@ class Pessoa {
                 valorFormatado += valorPuro[i];
             }
             evt.target.value = valorFormatado;
+            Pessoa.liberarCadastro();
         } catch (erro) {
             console.warn(erro);
         }
@@ -91,13 +99,73 @@ class Pessoa {
                 alert('A data de nascimento não pode ser maior que o dia de hoje');
                 evt.target.value = evt.target.defaultValue;
             }
+            Pessoa.liberarCadastro();
         } catch (erro) {
             console.warn(erro);
         }
     }
 
-    mascaraPeso = (evt) => {
+    static liberarCadastro = () => {
+        let dados_validos = this.verificarSePodeCadastrar();
+        if (dados_validos && Pessoa.btn_cadastrar.disabled) {
+            Pessoa.btn_cadastrar.disabled = false;
+        } else if (!dados_validos && !Pessoa.btn_cadastrar.disabled) {
+            Pessoa.btn_cadastrar.disabled = true;
+        }
+    }
 
+    static verificarSePodeCadastrar = () => {
+        let nome = Pessoa.nome.value;
+        let cpf = Pessoa.cpf.value;
+        let data_nascimento = Pessoa.data_nascimento.value;
+        let peso = Pessoa.peso.value;
+        let uf = Pessoa.uf.value;
+        let valid = false;
+        if (
+            (nome && nome.match(Pessoa.nome_regex)) &&
+            (cpf && cpf.match(Pessoa.cpf_regex)) &&
+            (!data_nascimento || data_nascimento.match(Pessoa.data_nascimento.match)) &&
+            (!isNaN(parseFloat(peso))) &&
+            (uf && uf.match(Pessoa.uf_regex))
+        ) {
+            valid = true;
+        }
+        return valid;
+    }
+
+    static gerarAlertaDeFormatoIncorreto = (dados_validos) => {
+        if (!dados_validos) {
+            let nome = Pessoa.nome.value;
+            let cpf = Pessoa.cpf.value;
+            let data_nascimento = Pessoa.data_nascimento.value;
+            let peso = Pessoa.peso.value;
+            let uf = Pessoa.uf.value;
+            let alerta = '';
+
+            if (!nome) alerta += '• Nome é obrigatório\n';
+            if (!cpf) alerta += '• CPF é obrigatório\n';
+            if (!uf) alerta += '• UF é obrigatório\n';
+            if (nome && !nome.match(Pessoa.nome_regex)) alerta += '• Nome não esta no formato correto. Utilize somente letras\n';
+            if (cpf && !cpf.match(Pessoa.cpf_regex)) alerta += '• CPF não esta no formato correto\n';
+            if (uf && !uf.match(Pessoa.uf_regex)) alerta += '• UF não possui um valor valido\n';
+            if (data_nascimento && !data_nascimento.match(Pessoa.data_nascimento_regex)) alerta += '• Data de nascimento esta invalida\n';
+            if (isNaN(parseFloat(peso))) alerta += '• Peso não esta no formato correto\n';
+
+            alert(alerta);
+        }
+    }
+
+    static cadastrar = (evt) => {
+        try {
+            let dados_validos = this.verificarSePodeCadastrar();
+            if(!dados_validos) {
+                Pessoa.gerarAlertaDeFormatoIncorreto();
+            } else {
+                
+            }
+        } catch (erro) {
+            console.warn(erro);
+        }
     }
 }
 

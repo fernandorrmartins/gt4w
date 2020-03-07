@@ -26,8 +26,7 @@
             <div class="row">
                 <div class="col-md-6">
                     CPF:<text class="obrigatorio" title="Campo Obrigatório">*</text><br />
-                    <input id='cpf' type="text" maxlength="14" placeholder="Ex: xxx.xxx.xxx-xx"
-                        pattern="(1[0-9]{3}.[0-9]{3}.[0-9]{3}-[0-9]{2})" />
+                    <input id='cpf' type="text" maxlength="14" placeholder="Ex: xxx.xxx.xxx-xx" />
                 </div>
                 <div class="col-md-6">
                     Data de Nascimento:<br />
@@ -37,11 +36,11 @@
             <div class="row">
                 <div class="col-md-6">
                     Peso(Kg):<br />
-                    <input id='peso' placeholder="Ex: 89,30" type="number">
+                    <input id='peso' placeholder="Ex: 89,30" value='0' step='10' max="500" type="number">
                 </div>
                 <div class="col-md-6">
                     UF:<text class="obrigatorio" title="Campo Obrigatório">*</text><br />
-                    <select id='estado'></select>
+                    <select id='uf'></select>
                 </div>
             </div>
             <div class="row">

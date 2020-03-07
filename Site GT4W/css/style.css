@@ -41,4 +41,5 @@ html, body {
 .obrigatorio {
     color: rgb(230, 16, 16);
     margin: auto 1%;
+    font-weight: bold;
 }
