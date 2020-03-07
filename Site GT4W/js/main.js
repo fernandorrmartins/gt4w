@@ -12,12 +12,6 @@ class Estado {
                 if (a.nome.toUpperCase() > b.nome.toUpperCase()) return 1;
                 else return -1;
             });
-            console.log(resposta);
-            /*resposta.sort((op1, op2) => {
-                console.log(op1, op2);
-                if(op1.sigla < op2.sigla) return op1;
-                else return op2;
-            });*/
             let opcoes = [];
             for (let chave in resposta) {
                 opcoes[resposta[chave].sigla] = resposta[chave].nome;
@@ -46,7 +40,7 @@ class Pessoa {
     data_nascimento;
     peso;
     estado;
-    uf_regex = /[A-Z]{2}/g;
+    uf_regex = /[A-Z]/g;
 
     constructor() {
         this.nome = document.querySelector('#formulario #nome');
@@ -58,13 +52,16 @@ class Pessoa {
         this.peso = document.querySelector('#formulario #peso');
         this.peso.onkeyup = this.mascaraPeso;
         this.estado = document.querySelector('#formulario #estado');
-        this.estado.onchange = this.mascaraEstado;
     }
 
     mascaraNome = (evt) => {
-        let valor = evt.target.value;
-        valor = valor.replace(/[-!¨´$#%^@\&*()\\_+|~=`{}\[\]:";'<>?,.\/0-9]/g, '');
-        evt.target.value = valor;
+        try {
+            let valor = evt.target.value;
+            valor = valor.replace(/[-!¨´$#%^@\&*()\\_+|~=`{}\[\]:";'<>?,.\/0-9]/g, '');
+            evt.target.value = valor;
+        } catch (erro) {
+            console.warn(erro);
+        }
     }
 
     mascaraCpf = (evt) => {
@@ -101,18 +98,6 @@ class Pessoa {
 
     mascaraPeso = (evt) => {
 
-    }
-
-    mascaraEstado = (evt) => {
-        try {
-            let valor = evt.target.value;
-            if (!this.uf_regex.test(valor)) {
-                alert('Valor inválido');
-                evt.target.value = null;
-            }
-        } catch (erro) {
-            console.warn(erro);
-        }
     }
 }
 
