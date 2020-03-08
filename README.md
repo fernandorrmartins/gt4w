@@ -1,0 +1,40 @@
+<h2>Instruções para Uso do Site e API</h2>
+[Xampp]
+	→ Instalar (Apache + MySql + phpadmin)
+	♦ Windows: https://www.apachefriends.org/xampp-files/7.4.3/xampp-windows-x64-7.4.3-0-VC15-installer.exe
+	♦ Linux: https://www.apachefriends.org/xampp-files/7.4.3/xampp-linux-x64-7.4.3-0-installer.run
+	
+	→ Executar o Xampp:
+		► MySql
+		► Apache
+		
+[Criar Banco de Dados]	
+	→ Abrir phpmyadmin:
+		► Abrir o navegador
+		► Na url do navegador, abrir link http://localhost/phpmyadmin/
+		► Ir na opção 'SQL'
+		► Ir a pasta do projeto 'GT4W', em seguida 'Schem (Sql)' e abrir o arquivo 'DataBase - Schema - GT4W.sql'
+		► Copiar o esquema do banco de dados, colar na opção 'SQL' do phpmyadmin
+		► Executar o script
+
+[Instalar NPM]
+	♦ Windows: https://nodejs.org/dist/v12.16.1/node-v12.16.1-x64.msi
+	♦ Linux: pkg install node
+	
+	→ Após Instalação:
+		► Ir até a pasta do Projeto GT4W
+		► Abrir o terminal do Sistema Operacional na pasta do projeto
+		► Executar a API:
+			• nodemon run
+		
+		Obs¹: A API estará rodando na porta 83
+		
+		para ver todos os registros cadastrados pode acessar o link:
+		♦ localhost:83/pessoa/getall
+
+[Preparar o Site]
+	→ Ir até a pasta do Projeto GT4W
+	→ Se desejar pode executar o arquivo index.html diretamente com dois clicks ou Copiar a pasta 'Site GT4W' para a pasta raiz do Xampp e Acessar o site pelo link: http://localhost/Site%20GT4W/
+		Obs¹: A porta padrão do Xampp após a instalação é 80. Se não estiver com esta porta padrão, deverá executar o link apontando para a porta configurada.
+
+	
