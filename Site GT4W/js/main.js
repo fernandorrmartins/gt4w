@@ -216,5 +216,3 @@ class Pessoa {
 }
 
 new Pessoa();
-
-$('#modal_requisicao').modal({ backdrop: 'static', keyboard: false });
