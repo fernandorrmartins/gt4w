@@ -32,5 +32,3 @@
 	→ Ir até a pasta do Projeto GT4W
 	→ Se desejar pode executar o arquivo index.html diretamente com dois clicks ou Copiar a pasta 'Site GT4W' para a pasta raiz do Xampp e Acessar o site pelo link: http://localhost/Site%20GT4W/
 		Obs¹: A porta padrão do Xampp após a instalação é 80. Se não estiver com esta porta padrão, deverá executar o link apontando para a porta configurada.
-
-	
