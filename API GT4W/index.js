@@ -1,6 +1,10 @@
 const restify = require('restify');
-
 const errs = require('restify-errors');
+const corsMiddleware = require('restify-cors-middleware');
+const cors = corsMiddleware({
+    preflightMaxAge: 5, //Optional
+    origins: ['*']
+  });
 
 const server = restify.createServer({
     name: 'myapp',
@@ -16,7 +20,10 @@ const knex = require('knex')({
         database: 'gt4w'
     }
 });
-
+// ▄▄▄▄▄▄▄▄▄▄▄▄▄▄ Cors ▄▄▄▄▄▄▄▄▄▄▄▄▄▄
+server.pre(cors.preflight)
+server.use(cors.actual)
+// ▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄▄
 server.use(restify.plugins.acceptParser(server.acceptable));
 server.use(restify.plugins.queryParser());
 server.use(restify.plugins.bodyParser());
@@ -34,6 +41,7 @@ server.get('/pessoa/getAll', (req, res, next) => {
 });
 
 server.post('/pessoa/create', (req, res, next) => {
+    console.log(req.body);
     knex('pessoa')
         .insert(req.body)
         .then((dados) => {

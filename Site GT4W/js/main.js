@@ -156,7 +156,8 @@ class Pessoa {
     }
 
     static enviarCadastro = async (pessoa) => {
-        try{
+        $('#modal_requisicao').modal({ backdrop: 'static', keyboard: false });
+        try {
             let resposta = await fetch("http://localhost:83/pessoa/create", {
                 headers: {
                     'Accept': 'application/json',
@@ -170,9 +171,21 @@ class Pessoa {
             resposta = await resposta.json().catch((erro) => {
                 console.warn(erro);
             });
+            $('#modal_requisicao').modal('hide');
+            if(resposta && resposta.message && resposta.message.toUpperCase().includes('DUPLICATE ENTRY')) {
+                alert('Já existe uma pessoa registrada com esse CPF')
+            } else if(resposta) {
+                if (Array.isArray(resposta)) {
+                    alert('Registro finalizado com sucesso!');
+                }
+                else if(resposta.code) {
+                    alert('Erro inesperado. Tente novamente, se o erro persistir, envie-nos um e-mail')
+                }
+            }
             // Tratar erro de cpf duplicado
         } catch (erro) {
             console.warn(erro);
+            $('#modal_requisicao').modal('hide');
         }
     }
 
@@ -203,3 +216,5 @@ class Pessoa {
 }
 
 new Pessoa();
+
+$('#modal_requisicao').modal({ backdrop: 'static', keyboard: false });

@@ -2,7 +2,7 @@
 
 <head>
     <link rel="shortcut icon" href="img/interface/icon.webp" />
-    <meta charset="utf-8"/>
+    <meta charset="utf-8" />
     <title>GT4W</title>
     <link rel="stylesheet" type="text/css" href="css/bootstrap.css">
     <script src="js/jquery-3.4.1.min.js"></script>
@@ -16,7 +16,8 @@
         <div id="form-head">
             <h6>Cadastro de Pessoa</h6>
             <text>Preencha o formulário para liberar o cadastro</text>
-            <text class="obrigatorio" title="Campo Obrigatório">*</text>
+            <text class="obrigatorio"
+                title="Ao preencher os campos obrigatórios do formulário, o botão de cadastro será liberado">*</text>
         </div>
         <div class="container">
             <div class="row">
@@ -52,6 +53,24 @@
             </div>
         </div>
 
+    </div>
+
+    <div id='modal_requisicao' class="modal" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Aguarde um momento</h5>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        <div class="loader">
+                            <div class="spinner" />
+                        </div>
+                        Enviando requisição...
+                    </p>
+                </div>
+            </div>
+        </div>
     </div>
     <script src="./js/main.js"></script>
 </body>
